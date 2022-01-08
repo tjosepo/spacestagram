@@ -37,12 +37,17 @@ export const Card = ({ image }: Props) => {
     return (
       <div className={styles.card}>
         <div className={styles.title}>{image.title}</div>
-        <img
-          onClick={clickImage}
-          className={styles.media}
-          src={image.media_type === "image" ? image.url : image.thumbnail_url}
-          alt={image.title}
-        />
+        <div className={styles.media} onClick={clickImage}>
+          <Skeleton
+            className="top-0 absolute w-full h-full"
+            variant="rectangular"
+          />
+          <img
+            className="block absolute top-0 w-full h-full object-cover"
+            src={image.media_type === "image" ? image.url : image.thumbnail_url}
+            alt={image.title}
+          />
+        </div>
         <div className={styles.content}>
           <div className={styles.actions}>
             <button

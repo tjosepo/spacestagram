@@ -12,7 +12,8 @@
 }
 
 .media {
-  @apply block w-full aspect-square object-cover;
+  @apply block w-full relative;
+  padding-top: 100%;
 }
 
 .content {
