@@ -43,7 +43,7 @@ const Home: NextPage = () => {
       {images.map((image) => (
         <Card key={image.date} image={image} />
       ))}
-      {skeletons > 0 && [...Array(skeletons)].map((e, i) => <Card key={i} />)}
+      {skeletons > 0 && <Card />}
       <div ref={endRef} />
     </div>
   );
