@@ -1,5 +1,6 @@
 import App, { AppContext } from "next/app";
 import type { AppProps } from "next/app";
+import Head from "next/head";
 
 import { NasaApiProvider } from "../contexts/NasaApiContext";
 import "../styles/globals.css";
@@ -25,6 +26,13 @@ function MyApp({ Component, pageProps, apiKey }: Props) {
 
   return (
     <NasaApiProvider apiKey={apiKey}>
+      <Head>
+        <title>Spacestagram</title>
+        <meta
+          name="description"
+          content="Image-sharing from the final frontier"
+        />
+      </Head>
       <Header />
       <main>
         <Component {...pageProps} />

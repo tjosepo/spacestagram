@@ -5,6 +5,7 @@
 @font-face {
   font-family: Cookie;
   src: url(Cookie-Regular.ttf);
+  font-display: swap;
 }
 
 body {

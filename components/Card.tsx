@@ -45,7 +45,11 @@ export const Card = ({ image }: Props) => {
         />
         <div className={styles.content}>
           <div className={styles.actions}>
-            <button className="p-2" onClick={() => setLiked((value) => !value)}>
+            <button
+              className="p-2"
+              aria-label={liked ? "Unlike" : "Like"}
+              onClick={() => setLiked((value) => !value)}
+            >
               {liked ? (
                 <Favorite className={styles.ping} htmlColor="#ed4956" />
               ) : (

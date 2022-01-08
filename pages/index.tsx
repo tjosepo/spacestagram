@@ -25,7 +25,7 @@ const Home: NextPage = () => {
   }, [skeletons]);
 
   // Add new skeletons when scrolling down
-  const endRef = useRef<HTMLDivElement>();
+  const endRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const observer = new IntersectionObserver(
       () => setSkeletons((s) => Math.min(s + 1, 5)),

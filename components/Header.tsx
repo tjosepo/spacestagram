@@ -36,7 +36,7 @@ export const Header = () => {
     <div className={styles.header}>
       <div className={styles.content}>
         <span className={styles.logo}>Spacestagram</span>
-        <button onClick={toggleModes}>
+        <button onClick={toggleModes} aria-label="Toggle dark mode">
           {mode === "dark" ? <LightModeOutlined /> : <DarkModeOutlined />}
         </button>
       </div>
