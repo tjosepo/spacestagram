@@ -39,7 +39,9 @@ export const Card = ({ image }: Props) => {
         <div className={styles.title}>{image.title}</div>
         <div className={styles.media} onClick={clickImage}>
           <Skeleton
-            className="top-0 absolute w-full h-full"
+            height="100%"
+            width="100%"
+            className="top-0 absolute"
             variant="rectangular"
           />
           <img
