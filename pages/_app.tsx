@@ -1,8 +1,44 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import App, { AppContext } from "next/app";
+import type { AppProps } from "next/app";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+import { NasaApiProvider } from "../contexts/NasaApiContext";
+import "../styles/globals.css";
+import { useEffect } from "react";
+import { Header } from "../components";
+
+interface Props extends AppProps {
+  apiKey: string;
 }
 
-export default MyApp
+function MyApp({ Component, pageProps, apiKey }: Props) {
+  useEffect(() => {
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
+  return (
+    <NasaApiProvider apiKey={apiKey}>
+      <Header />
+      <main>
+        <Component {...pageProps} />
+      </main>
+    </NasaApiProvider>
+  );
+}
+
+MyApp.getInitialProps = async (appContext: AppContext) => {
+  // calls page's `getInitialProps` and fills `appProps.pageProps`
+  const appProps = await App.getInitialProps(appContext);
+  const apiKey = process.env.API_KEY;
+
+  return { ...appProps, apiKey };
+};
+
+export default MyApp;

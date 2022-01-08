@@ -1,9 +1,26 @@
-html,
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: Cookie;
+  src: url(Cookie-Regular.ttf);
+}
+
 body {
-  padding: 0;
-  margin: 0;
+  @apply p-0 m-0 bg-white sm:bg-gray-100 text-gray-900;
+  /* @apply dark:bg-black dark:text-white; */
+
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+html.dark body {
+  @apply bg-black text-white;
+}
+
+main {
+  @apply max-w-2xl py-5 sm:px-5 w-full mx-auto;
 }
 
 a {

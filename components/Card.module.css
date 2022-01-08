@@ -1,0 +1,65 @@
+.card {
+  @apply bg-white sm:rounded sm:border border-gray-200;
+  /* @apply dark:bg-black dark:sm:bg-neutral-900 dark:sm:border-neutral-800; */
+}
+
+:global(.dark) .card {
+  @apply bg-black sm:bg-neutral-900 sm:border-neutral-800;
+}
+
+.title {
+  @apply p-4 text-sm font-medium;
+}
+
+.media {
+  @apply block w-full aspect-square object-cover;
+}
+
+.content {
+  @apply pb-4 text-sm;
+}
+
+.actions {
+  @apply px-2 pt-2;
+}
+
+.description {
+  @apply flex px-4 overflow-hidden gap-1;
+}
+
+.description-short {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.more {
+  @apply text-gray-500;
+  /* @apply dark:text-gray-300; */
+}
+
+.date {
+  @apply pt-1 px-4 text-[0.625rem] text-gray-500 sm:uppercase;
+  /* @apply dark:text-gray-300; */
+}
+
+:global(.dark) .date,
+:global(.dark) .more {
+  @apply text-gray-300;
+}
+
+.ping {
+  animation: ping 0.3s;
+}
+
+@keyframes ping {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

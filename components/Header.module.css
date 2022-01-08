@@ -1,0 +1,17 @@
+.header {
+  @apply bg-white border-b sticky z-10 top-0 border-gray-200 flex justify-center h-14;
+  /* @apply dark:bg-black dark:border-black dark:sm:bg-neutral-900 dark:sm:border-neutral-800; */
+}
+
+:global(.dark) .header {
+  @apply bg-black border-black sm:bg-neutral-900 sm:border-neutral-800;
+}
+
+.content {
+  @apply max-w-4xl px-5 w-full flex items-center justify-between;
+}
+
+.logo {
+  @apply text-3xl;
+  font-family: Cookie;
+}
