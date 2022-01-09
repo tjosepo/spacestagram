@@ -25,7 +25,11 @@ export const Header = () => {
           <button onClick={toggle} aria-label="Toggle dark mode">
             {mode === "dark" ? <LightModeOutlined /> : <DarkModeOutlined />}
           </button>
-          <a href="https://github.com/tjosepo/spacestagram" target="_blank">
+          <a
+            href="https://github.com/tjosepo/spacestagram"
+            target="_blank"
+            rel="noreferrer"
+          >
             <GitHub />
           </a>
         </div>
