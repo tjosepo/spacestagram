@@ -102,8 +102,6 @@ export const NasaApiProvider = ({ apiKey, children }: any) => {
       results.push(...posts);
     }
 
-    console.log(results);
-
     // Save results in idb
     setMany(results.map((media) => [media.date, media]));
 
@@ -111,7 +109,7 @@ export const NasaApiProvider = ({ apiKey, children }: any) => {
   };
 
   async function* apod(
-    startDate = toISODate(Date.now())
+    startDate = previousDate(Date.now())
   ): AsyncGenerator<ApodMedia> {
     let date = startDate;
     while (true) {
