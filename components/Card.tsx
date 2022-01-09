@@ -13,10 +13,12 @@ export const Card = ({ image }: Props) => {
   const [liked, setLiked] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [clickCount, setClickCount] = useState(0);
+  const [showAnimatedHeart, setShowAnimatedHeart] = useState(false);
 
   useEffect(() => {
     if (clickCount === 2) {
       setLiked(true);
+      setShowAnimatedHeart(true);
     }
   }, [clickCount]);
 
@@ -35,7 +37,7 @@ export const Card = ({ image }: Props) => {
     };
 
     return (
-      <div className={styles.card}>
+      <article className={styles.card} role="presentation">
         <div className={styles.title}>{image.title}</div>
         <div className={styles.media} onClick={clickImage}>
           <Skeleton
@@ -49,6 +51,15 @@ export const Card = ({ image }: Props) => {
             src={image.media_type === "image" ? image.url : image.thumbnail_url}
             alt={image.title}
           />
+          {showAnimatedHeart && (
+            <div className="absolute top-0 right-0 bottom-0 left-0 flex items-center">
+              <Favorite
+                onAnimationEnd={() => setShowAnimatedHeart(false)}
+                className={styles["animated-heart"]}
+                htmlColor="#FFFFFF"
+              />
+            </div>
+          )}
         </div>
         <div className={styles.content}>
           <div className={styles.actions}>
@@ -83,7 +94,7 @@ export const Card = ({ image }: Props) => {
           </div>
           <div className={styles.date}>{dateString}</div>
         </div>
-      </div>
+      </article>
     );
   } else {
     return (

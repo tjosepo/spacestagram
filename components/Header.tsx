@@ -1,44 +1,34 @@
-import { useState, useEffect } from "react";
+import {
+  DarkModeOutlined,
+  GitHub,
+  LightModeOutlined,
+} from "@mui/icons-material";
 
-import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material";
+import { useDarkMode } from "../hooks/useDarkMode";
 import styles from "./Header.module.css";
 
 export const Header = () => {
-  const [mode, setMode] = useState<"dark" | "light">(() => {
-    if (typeof window === "undefined") return "dark";
-
-    if (
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      return "dark";
-    } else {
-      return "light";
-    }
-  });
-
-  useEffect(() => {
-    if (mode === "dark") {
-      document.documentElement.classList.add("dark");
-      localStorage.theme = "dark";
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.theme = "light";
-    }
-  }, [mode]);
-
-  const toggleModes = () => {
-    setMode(mode === "dark" ? "light" : "dark");
-  };
+  const [mode, toggle] = useDarkMode();
 
   return (
     <div className={styles.header}>
       <div className={styles.content}>
-        <span className={styles.logo}>Spacestagram</span>
-        <button onClick={toggleModes} aria-label="Toggle dark mode">
-          {mode === "dark" ? <LightModeOutlined /> : <DarkModeOutlined />}
+        <button
+          tabIndex={-1}
+          aria-label="Scroll to top"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className={styles.logo}
+        >
+          Spacestagram
         </button>
+        <div className="flex gap-4">
+          <button onClick={toggle} aria-label="Toggle dark mode">
+            {mode === "dark" ? <LightModeOutlined /> : <DarkModeOutlined />}
+          </button>
+          <a href="https://github.com/tjosepo/spacestagram" target="_blank">
+            <GitHub />
+          </a>
+        </div>
       </div>
     </div>
   );
