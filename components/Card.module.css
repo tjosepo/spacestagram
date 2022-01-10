@@ -67,8 +67,9 @@
 
 .animated-heart {
   @apply mx-auto;
-  width: 128px;
-  height: 128px;
+  /* Those get overwritten on compile for some reasons */
+  width: 128px !important;
+  height: 128px !important;
   animation: like-heart-animation 1s ease-in-out;
   opacity: 0;
 }
