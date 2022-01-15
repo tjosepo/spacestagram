@@ -10,10 +10,12 @@ It was built for Shopify's [Front End Developer Intern Challenge - Summer 2022](
 
 Some things I did on top of the technical requirements to create a better user experience:
 
+- Explore page.
 - Infinite scroll.
 - Loading skeletons.
 - Mobile-first design.
-- Toggleable dark theme. 
+- Toggleable dark theme.
+- Shareable links.
 - Like animation (double tap the image to see it!)
 - Caching with IndexedDB.
 
@@ -42,14 +44,6 @@ Some things I did on top of the technical requirements to create a better user e
   <summary>Like animation</summary>
     <img width="300" src="https://user-images.githubusercontent.com/44372776/149552166-77837ae7-64e0-413b-8766-055e5dc552e5.png" />
 </details>
-
-## Things to improve
-
-If I had more time and was working on a commercial product, here are the things I would do: 
-
-- Add a "bookmark" feature, to save posts and easily find them later.
-- Add a "explore" page with random pictures.
-- Recycle DOM nodes when scrolling down the page.
 
 ## Building locally
 Get a free API key for [NASA's Open API](https://api.nasa.gov/). Clone the repo, and set the key as an environment variable named `API_KEY` or create a `.env` file in the root of the project with the following content:
