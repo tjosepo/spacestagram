@@ -1,0 +1,3 @@
+.root > div {
+  @apply justify-center bg-neutral-800;
+}

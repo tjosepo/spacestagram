@@ -1,18 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
 
 export const useDarkMode = (): ["dark" | "light", () => void] => {
-  const [mode, setMode] = useState<"dark" | "light">(() => {
-    if (typeof window === "undefined") return "light";
+  const [mode, setMode] = useState<"dark" | "light">("light");
+
+  useEffect(() => {
     if (
       localStorage.theme === "dark" ||
       (!("theme" in localStorage) &&
         window.matchMedia("(prefers-color-scheme: dark)").matches)
     ) {
-      return "dark";
+      setMode("dark");
     } else {
-      return "light";
+      setMode("light");
     }
-  });
+  }, []);
 
   useEffect(() => {
     if (mode === "dark") {

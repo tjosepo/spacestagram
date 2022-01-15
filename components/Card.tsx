@@ -1,35 +1,56 @@
-import { useEffect, useRef, useState } from "react";
-import { Favorite, FavoriteBorderOutlined } from "@mui/icons-material";
+import { useEffect, useState } from "react";
+import { Tooltip, ClickAwayListener } from "@mui/material";
+import {
+  Favorite,
+  FavoriteBorderOutlined,
+  Link,
+  Share,
+} from "@mui/icons-material";
 
-import { ApodMedia } from "../contexts/NasaApiContext";
+import { useSpacestagram } from "../contexts/SpacestagramContext";
+import { ApodMedia, useNasaApi } from "../contexts/NasaApiContext";
 import { Skeleton } from "./Skeleton";
 import styles from "./Card.module.css";
+import { useSnackbar } from "../contexts/SnackbarContext";
 
 interface Props {
+  date: string;
   image?: ApodMedia;
 }
 
-export const Card = ({ image }: Props) => {
-  const [liked, setLiked] = useState(false);
+export const Card = ({ date }: Props) => {
+  const { getApodByDate } = useNasaApi();
+  const [image, setImage] = useState<ApodMedia | undefined>(undefined);
+
+  const { likes, addLike, removeLike } = useSpacestagram();
+
   const [expanded, setExpanded] = useState(false);
   const [clickCount, setClickCount] = useState(0);
   const [showAnimatedHeart, setShowAnimatedHeart] = useState(false);
+  const [showCopyTooltip, setShowCopyTooltip] = useState(false);
+
+  const snackbar = useSnackbar();
+
+  useEffect(() => {
+    getApodByDate(date).then((image) => setImage(image));
+  }, []);
 
   useEffect(() => {
     if (clickCount === 2) {
-      setLiked(true);
+      addLike(date);
       setShowAnimatedHeart(true);
     }
   }, [clickCount]);
 
   if (image) {
-    const date = new Date(image.date);
     const options = {
       year: "numeric",
       month: "long",
       day: "numeric",
     } as const;
-    const dateString = new Intl.DateTimeFormat("en", options).format(date);
+    const dateString = new Intl.DateTimeFormat("en", options).format(
+      new Date(date)
+    );
 
     const clickImage = () => {
       setClickCount((count) => count + 1);
@@ -65,15 +86,42 @@ export const Card = ({ image }: Props) => {
           <div className={styles.actions}>
             <button
               className="p-2"
-              aria-label={liked ? "Unlike" : "Like"}
-              onClick={() => setLiked((value) => !value)}
+              aria-label={likes.has(date) ? "Unlike" : "Like"}
+              onClick={() => {
+                if (likes.has(date)) removeLike(date);
+                else addLike(date);
+              }}
             >
-              {liked ? (
+              {likes.has(date) ? (
                 <Favorite className={styles.ping} htmlColor="#ed4956" />
               ) : (
                 <FavoriteBorderOutlined className="hover:text-gray-500" />
               )}
             </button>
+
+            <ClickAwayListener onClickAway={() => setShowCopyTooltip(false)}>
+              <Tooltip
+                disableFocusListener
+                disableHoverListener
+                disableTouchListener
+                title="Link copied"
+                open={showCopyTooltip}
+                arrow
+                placement="top"
+              >
+                <button
+                  className="p-2"
+                  aria-label="Share"
+                  onClick={() => {
+                    const { origin } = new URL(location.href);
+                    navigator.clipboard.writeText(`${origin}/p/${date}`);
+                    setShowCopyTooltip(true);
+                  }}
+                >
+                  <Share className="hover:text-gray-500" />
+                </button>
+              </Tooltip>
+            </ClickAwayListener>
           </div>
           <div className={styles.description}>
             {expanded ? (
@@ -109,6 +157,9 @@ export const Card = ({ image }: Props) => {
         <div className={styles.actions}>
           <div className="p-2">
             <FavoriteBorderOutlined />
+          </div>
+          <div className="p-2">
+            <Share />
           </div>
         </div>
         <div className={styles.content}>

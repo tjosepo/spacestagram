@@ -24,6 +24,10 @@
   @apply px-2 pt-2;
 }
 
+.tooltip .MuiTooltip-tooltip {
+  @apply bg-neutral-800;
+}
+
 .description {
   @apply flex px-4 overflow-hidden gap-1;
 }
