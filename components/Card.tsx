@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { Tooltip, ClickAwayListener } from "@mui/material";
-import {
-  Favorite,
-  FavoriteBorderOutlined,
-  Link,
-  Share,
-} from "@mui/icons-material";
+import { Favorite, FavoriteBorderOutlined, Share } from "@mui/icons-material";
 
 import { useSpacestagram } from "../contexts/SpacestagramContext";
 import { ApodMedia, useNasaApi } from "../contexts/NasaApiContext";
@@ -28,8 +23,6 @@ export const Card = ({ date }: Props) => {
   const [clickCount, setClickCount] = useState(0);
   const [showAnimatedHeart, setShowAnimatedHeart] = useState(false);
   const [showCopyTooltip, setShowCopyTooltip] = useState(false);
-
-  const snackbar = useSnackbar();
 
   useEffect(() => {
     getApodByDate(date).then((image) => setImage(image));
@@ -114,7 +107,7 @@ export const Card = ({ date }: Props) => {
                   aria-label="Share"
                   onClick={() => {
                     const { origin } = new URL(location.href);
-                    navigator.clipboard.writeText(`${origin}/p/${date}`);
+                    navigator.clipboard.writeText(`${origin}/?p=${date}`);
                     setShowCopyTooltip(true);
                   }}
                 >

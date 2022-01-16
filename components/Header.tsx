@@ -17,20 +17,9 @@ export const Header = () => {
   return (
     <div className={styles.header}>
       <div className={styles.content}>
-        <button
-          tabIndex={-1}
-          aria-label="Scroll to top"
-          onClick={() => {
-            if (router.pathname !== "/") {
-              router.push("/");
-            } else {
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }
-          }}
-          className={styles.logo}
-        >
-          Spacestagram
-        </button>
+        <Link href="/">
+          <a className={styles.logo}>Spacestagram</a>
+        </Link>
         <div className="flex gap-4">
           <Link href="/explore/">
             <a>

@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 import { Card } from "../components";
 import { NasaApiProvider } from "../contexts/NasaApiContext";
@@ -7,6 +8,7 @@ import { SpacestagramProvider } from "../contexts/SpacestagramContext";
 
 import useDates from "../hooks/useDates";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import { previousDate, previousDates } from "../utils/date-helper";
 
 interface Props {
   apiKey: string;
@@ -21,9 +23,19 @@ export async function getStaticProps() {
 }
 
 const Home: NextPage<Props> = ({ apiKey }) => {
-  const getDates = useDates();
-  const [dates, setDates] = useState(() => getDates(5));
-  const ref = useInfiniteScroll(() => setDates((d) => [...d, ...getDates()]));
+  const router = useRouter();
+  let startDate = (router.query["p"] as string) || previousDate(Date.now());
+  const [dates, setDates] = useState<string[]>([]);
+  const ref = useInfiniteScroll(() =>
+    setDates((d) => {
+      const last = d.at(-1) as string;
+      return [...d, previousDate(last)];
+    })
+  );
+
+  useEffect(() => {
+    setDates([startDate, ...previousDates(startDate, 4)]);
+  }, [startDate]);
 
   return (
     <NasaApiProvider apiKey={apiKey}>

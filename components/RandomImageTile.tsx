@@ -26,7 +26,7 @@ export const RandomImageTile = () => {
     image.media_type !== "other" &&
     !(image.media_type === "video" && image.thumbnail_url === "")
   ) {
-    const url = new URL(location.href).origin + "/p/" + image.date;
+    const url = new URL(location.href).origin + "/?p=" + image.date;
 
     return (
       <Link href={url}>

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { previousDate, toISODate } from "../utils/date-helper";
 
 const useDates = (
@@ -6,16 +6,20 @@ const useDates = (
 ) => {
   const date = useRef(toISODate(startDate));
 
-  function get(n = 1): string[] {
+  const getDates = (n = 1): string[] => {
     const dates = [];
     for (let i = 0; i < n; i++) {
       dates.push(date.current);
       date.current = previousDate(date.current);
     }
     return dates;
-  }
+  };
 
-  return get;
+  useEffect(() => {
+    date.current = toISODate(startDate);
+  }, [startDate]);
+
+  return getDates;
 };
 
 export default useDates;
