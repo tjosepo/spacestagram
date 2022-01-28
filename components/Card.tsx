@@ -3,7 +3,11 @@ import { Tooltip, ClickAwayListener } from "@mui/material";
 import { Favorite, FavoriteBorderOutlined, Share } from "@mui/icons-material";
 
 import { useSpacestagram } from "../contexts/SpacestagramContext";
-import { ApodMedia, useNasaApi } from "../contexts/NasaApiContext";
+import {
+  ApodMedia,
+  NasaApiError,
+  useNasaApi,
+} from "../contexts/NasaApiContext";
 import { Skeleton } from "./Skeleton";
 import styles from "./Card.module.css";
 import { useSnackbar } from "../contexts/SnackbarContext";
@@ -17,6 +21,7 @@ export const Card = ({ date }: Props) => {
   const { getApodByDate } = useNasaApi();
   const [image, setImage] = useState<ApodMedia | undefined>(undefined);
 
+  const snackbar = useSnackbar();
   const { likes, addLike, removeLike } = useSpacestagram();
 
   const [expanded, setExpanded] = useState(false);
@@ -25,7 +30,28 @@ export const Card = ({ date }: Props) => {
   const [showCopyTooltip, setShowCopyTooltip] = useState(false);
 
   useEffect(() => {
-    getApodByDate(date).then((image) => setImage(image));
+    let retries = 0;
+    const tryFetch = () => {
+      getApodByDate(date)
+        .then((image) => setImage(image))
+        .catch((error: NasaApiError) => {
+          if (retries === 0) {
+            snackbar.push(`Failed to load image from NASA. Trying again.`, {
+              severity: "warning",
+            });
+          }
+          if (retries === 5) {
+            snackbar.push(`${error.msg} from NASA`, {
+              severity: "error",
+            });
+            return;
+          }
+          retries++;
+          tryFetch();
+        });
+    };
+
+    tryFetch();
   }, []);
 
   useEffect(() => {

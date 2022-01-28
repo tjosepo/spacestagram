@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { Card } from "../components";
 import { NasaApiProvider } from "../contexts/NasaApiContext";
+import { SnackbarProvider } from "../contexts/SnackbarContext";
 import { SpacestagramProvider } from "../contexts/SpacestagramContext";
 
 import useDates from "../hooks/useDates";
@@ -40,14 +41,16 @@ const Home: NextPage<Props> = ({ apiKey }) => {
   return (
     <NasaApiProvider apiKey={apiKey}>
       <SpacestagramProvider>
-        <div
-          ref={ref as any}
-          className="flex flex-col sm:gap-6 max-w-2xl sm:p-5 w-full mx-auto"
-        >
-          {dates.map((date) => (
-            <Card key={date} date={date} />
-          ))}
-        </div>
+        <SnackbarProvider>
+          <div
+            ref={ref as any}
+            className="flex flex-col sm:gap-6 max-w-2xl sm:p-5 w-full mx-auto"
+          >
+            {dates.map((date) => (
+              <Card key={date} date={date} />
+            ))}
+          </div>
+        </SnackbarProvider>
       </SpacestagramProvider>
     </NasaApiProvider>
   );

@@ -1,15 +1,33 @@
 import { useEffect, useState } from "react";
 import { Skeleton } from "./Skeleton";
-import { ApodMedia, useNasaApi } from "../contexts/NasaApiContext";
+import {
+  ApodMedia,
+  NasaApiError,
+  useNasaApi,
+} from "../contexts/NasaApiContext";
 import Link from "next/link";
+import { useSnackbar } from "../contexts/SnackbarContext";
 
 export const RandomImageTile = () => {
+  const snackbar = useSnackbar();
   const { getRandomApod } = useNasaApi();
   const [image, setImage] = useState<ApodMedia | undefined>(undefined);
 
   useEffect(() => {
-    getRandomApod().then((image) => setImage(image));
-  }, []);
+    const timeoutId = window.setTimeout(() => {
+      snackbar.push(`Getting images from NASA. It may take a while.`, {
+        severity: "info",
+      });
+    }, 5000);
+    getRandomApod()
+      .then((image) => setImage(image))
+      .catch((error: NasaApiError) => {
+        snackbar.push(`${error.msg} from NASA`, { severity: "error" });
+      })
+      .finally(() => {
+        window.clearTimeout(timeoutId);
+      });
+  }, [getRandomApod, snackbar]);
 
   useEffect(() => {
     if (
@@ -17,9 +35,13 @@ export const RandomImageTile = () => {
       (image.media_type === "other" ||
         (image.media_type === "video" && image.thumbnail_url === ""))
     ) {
-      getRandomApod().then((image) => setImage(image));
+      getRandomApod()
+        .then((image) => setImage(image))
+        .catch((error: NasaApiError) => {
+          snackbar.push(`${error.msg} from NASA`, { severity: "error" });
+        });
     }
-  }, [image]);
+  }, [getRandomApod, image, snackbar]);
 
   if (
     image &&
