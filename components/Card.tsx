@@ -173,15 +173,15 @@ export const Card = ({ date }: Props) => {
           className={styles.media + " pt-[100%]"}
           variant="rectangular"
         />
-        <div className={styles.actions}>
-          <div className="p-2">
-            <FavoriteBorderOutlined />
-          </div>
-          <div className="p-2">
-            <Share />
-          </div>
-        </div>
         <div className={styles.content}>
+          <div className={`${styles.actions} flex`}>
+            <div className="p-2">
+              <FavoriteBorderOutlined />
+            </div>
+            <div className="p-2">
+              <Share />
+            </div>
+          </div>
           <div className={styles.description}>
             <Skeleton width="100%" />
           </div>
