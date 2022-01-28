@@ -18,6 +18,7 @@ Some things I did on top of the technical requirements to create a better user e
 - Shareable links.
 - Like animation (double tap the image to see it!)
 - Caching with IndexedDB.
+- Error handling when NASA API fails to respond. (Added 28 Jan. 2022)
 
 ## Screenshots
 
