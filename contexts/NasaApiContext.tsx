@@ -39,7 +39,7 @@ export const NasaApiProvider = ({ apiKey, children }: Props) => {
     if (image) return image;
 
     const response = await fetch(
-      "https://api.nasa.gov/planetary/apod?" +
+      "https://apod.deno.dev/?" +
         new URLSearchParams({
           api_key: apiKey,
           thumbs: "true",
@@ -71,7 +71,7 @@ export const NasaApiProvider = ({ apiKey, children }: Props) => {
         currentBatch = [];
 
         const request = await fetch(
-          "https://api.nasa.gov/planetary/apod?" +
+          "https://apod.deno.dev/?" +
             new URLSearchParams({
               api_key: apiKey,
               thumbs: "true",
