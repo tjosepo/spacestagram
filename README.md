@@ -19,6 +19,8 @@ Some things I did on top of the technical requirements to create a better user e
 - Like animation (double tap the image to see it!)
 - Caching with IndexedDB.
 - Error handling when NASA API fails to respond. (Added 28 Jan. 2022)
+- Deployed [my own version of the APOD API](https://github.com/tjosepo/deno_apod) on Deno Deploy (Added 2 Feb. 2022)
+
 
 ## Screenshots
 
